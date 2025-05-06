@@ -29,3 +29,32 @@
   <script src="script.js"></script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorkSpaceAI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Sekcja generatora opisów (istniejąca) -->
+    <div class="tool-card">
+      <h2>📝 Generator opisów produktów</h2>
+      <input type="text" id="product-link" placeholder="Wklej link produktu (np. z AliExpress)">
+      <button id="generate-desc-btn">Generuj opis</button>
+      <div id="desc-output" class="output"></div>
+    </div>
+
+    <!-- Sekcja generatora e-booków (nowa) -->
+    <div class="tool-card">
+      <h2>📚 Generator e-booków</h2>
+      <textarea id="ebook-topic" placeholder="Wpisz temat e-booka"></textarea>
+      <button id="generate-ebook-btn">Generuj e-book</button>
+      <div id="ebook-output" class="output"></div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
