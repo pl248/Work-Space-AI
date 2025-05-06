@@ -1,63 +1,68 @@
-body {
-  font-family: 'Arial', sans-serif;
-  line-height: 1.6;
+/* Reset i podstawy */
+* {
+  box-sizing: border-box;
   margin: 0;
-  padding: 20px;
-  background: #f7f9fc;
-  color: #333;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background: #f5f7fa;
+  padding: 2rem;
 }
 
 .container {
   max-width: 800px;
   margin: 0 auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
+h1 {
+  color: #2d3748;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Style dla kart narzędzi */
 .tool-card {
   background: white;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
+/* Inputy i przyciski */
 input, textarea, button {
   width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 1rem;
 }
 
 button {
-  background: #4CAF50;
+  background: #4299e1;
   color: white;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.2s;
 }
 
 button:hover {
-  background: #45a049;
+  background: #3182ce;
 }
 
+/* Wyniki */
 .output {
-  margin-top: 20px;
-  padding: 15px;
-  background: #f0f0f0;
-  border-radius: 5px;
-  white-space: pre-wrap;
-}
-/* Dodaj to na końcu pliku */
-.tool-card {
-  background: white;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-textarea {
+  background: #f8fafc;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-top: 1rem;
   min-height: 100px;
-  resize: vertical;
+  white-space: pre-wrap;
 }
