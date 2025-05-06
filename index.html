@@ -68,6 +68,76 @@
 
   <script src="script.js"></script>
 </body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorkSpaceAI - AI-Powered Content Generator</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="description" content="Generate product descriptions, ebooks, and sales offers with AI">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>WorkSpaceAI</h1>
+      <div class="language-switcher">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="pl">PL</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- Generator opisów produktów -->
+      <section class="tool-card">
+        <h2>📝 Product Description Generator</h2>
+        <div class="input-group">
+          <input type="text" id="product-link" placeholder="Paste product link (e.g. AliExpress)">
+          <button id="generate-desc-btn">Generate Description</button>
+        </div>
+        <div class="output-container">
+          <div id="desc-output" class="output"></div>
+          <button class="copy-btn">Copy</button>
+        </div>
+      </section>
+
+      <!-- Generator e-booków -->
+      <section class="tool-card">
+        <h2>📚 E-book Generator</h2>
+        <div class="input-group">
+          <textarea id="ebook-topic" placeholder="Enter topic or keywords"></textarea>
+          <button id="generate-ebook-btn">Generate E-book</button>
+        </div>
+        <div class="output-container">
+          <div id="ebook-output" class="output"></div>
+          <div class="action-buttons">
+            <button class="copy-btn">Copy</button>
+            <button class="export-btn">Export PDF</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Generator ofert sprzedażowych -->
+      <section class="tool-card">
+        <h2>💼 Sales Offer Generator</h2>
+        <div class="input-group">
+          <input type="text" id="offer-link" placeholder="Enter product name or link">
+          <button id="generate-offer-btn">Generate Offer</button>
+        </div>
+        <div class="output-container">
+          <div id="offer-output" class="output"></div>
+          <button class="copy-btn">Copy</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>© 2023 WorkSpaceAI | Powered by AI</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
 
     
