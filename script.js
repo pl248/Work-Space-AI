@@ -1,89 +1,66 @@
-// === KLUCZ API ===
-const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY'; // ← tu wklej swój prawdziwy klucz
+import { OpenAI } from "openai";
 
-// === Główna funkcja zapytań do OpenAI ===
-async function openAIRequest(prompt) {
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${OPENAI_API_KEY}`
-    },
-    body: JSON.stringify({
-      model: "gpt-4", // lub "gpt-3.5-turbo" jeśli nie masz GPT-4
-      messages: [
-        { role: "system", content: "Jesteś pomocnym asystentem e-commerce." },
-        { role: "user", content: prompt }
-      ],
-      temperature: 0.7
-    })
-  });
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY, // Klucz w zmiennych środowiskowych Vercel
+});
 
-  const data = await response.json();
-
-  if (data.error) {
-    console.error(data.error);
-    return "❌ Error generating content. Check your API key or input.";
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Tylko POST!" });
   }
 
-  return data.choices[0].message.content;
+  try {
+    const { product, descriptionParams, ebookParams } = req.body;
+
+    // 1. Generator ofert
+    const salesOffer = await generateSalesOffer(product);
+    
+    // 2. Optymalizator cen
+    const pricing = optimizePrice(product);
+    
+    // 3. Generator opisów produktów
+    const productDescription = await generateProductDescription(product, descriptionParams);
+    
+    // 4. Generator eBooków
+    const ebookContent = await generateEbook(ebookParams);
+
+    res.status(200).json({ salesOffer, pricing, productDescription, ebookContent });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 }
 
-// === Obsługa generatora opisów produktów ===
-document.getElementById('generate-desc-btn').addEventListener('click', async () => {
-  const link = document.getElementById('product-link').value;
-  const output = document.getElementById('desc-output');
-  
-  if (!link) {
-    output.textContent = 'Please enter a product link';
-    return;
-  }
+// Funkcje pomocnicze (te same co wcześniej)
+async function generateSalesOffer(product) {
+  const prompt = `Stwórz ofertę sprzedażową dla ${product.name}. Cechy: ${product.features?.join(", ") || "brak"}.`;
+  const response = await openai.chat.completions.create({
+    model: "gpt-4",
+    messages: [{ role: "user", content: prompt }],
+  });
+  return response.choices[0].message.content;
+}
 
-  output.textContent = 'Generating description...';
+function optimizePrice(product) {
+  const avgPrice = product.competitorPrices?.reduce((a, b) => a + b, 0) / product.competitorPrices?.length || 0;
+  return {
+    suggestedPrice: Math.max(avgPrice * 0.95, product.cost * 1.2).toFixed(2),
+  };
+}
 
-  const prompt = `Stwórz krótki, atrakcyjny opis produktu na podstawie tego linku lub nazwy: ${link}. 
-Uwzględnij najważniejsze cechy i zalety.`;
-  const description = await openAIRequest(prompt);
-  output.textContent = description;
-});
+async function generateProductDescription(product, params) {
+  const prompt = `Napisz opis produktu ${product.name} (kategoria: ${params?.category || "inne"}). Słowa kluczowe: ${params?.keywords || "brak"}.`;
+  const response = await openai.chat.completions.create({
+    model: "gpt-4",
+    messages: [{ role: "user", content: prompt }],
+  });
+  return response.choices[0].message.content;
+}
 
-// === Obsługa generatora e-booków ===
-document.getElementById('generate-ebook-btn').addEventListener('click', async () => {
-  const topic = document.getElementById('ebook-topic').value;
-  const output = document.getElementById('ebook-output');
-  
-  if (!topic) {
-    output.textContent = 'Please enter a topic';
-    return;
-  }
-
-  output.textContent = 'Generating e-book outline...';
-
-  const prompt = `Przygotuj konspekt krótkiego e-booka na temat: "${topic}". 
-Uwzględnij wstęp, główne rozdziały oraz zakończenie.`;
-  const ebookContent = await openAIRequest(prompt);
-  output.textContent = ebookContent;
-});
-
-// === Obsługa generatora ofert sprzedażowych ===
-document.getElementById('generate-offer-btn').addEventListener('click', async () => {
-  const input = document.getElementById('offer-link').value;
-  const output = document.getElementById('offer-output');
-  
-  if (!input) {
-    output.textContent = 'Please enter a product name or link';
-    return;
-  }
-
-  output.textContent = 'Generating sales offer...';
-
-  const prompt = `Stwórz gotową ofertę sprzedażową produktu "${input}" do użycia w sklepie internetowym lub ogłoszeniu.
-Zawiera:
-- chwytliwy nagłówek
-- krótki opis korzyści
-- listę cech
-- wezwanie do działania (CTA)
-Tekst ma być formatowany i gotowy do wklejenia.`;
-  const offerContent = await openAIRequest(prompt);
-  output.textContent = offerContent;
-});
+async function generateEbook(params) {
+  const prompt = `Stwórz wstęp do eBooka "${params?.topic || "Brak tematu"}". Rozdziały: ${params?.chapters?.join(", ") || "brak"}. Ton: ${params?.tone || "neutralny"}.`;
+  const response = await openai.chat.completions.create({
+    model: "gpt-4",
+    messages: [{ role: "user", content: prompt }],
+  });
+  return response.choices[0].message.content;
+}
