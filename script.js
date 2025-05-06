@@ -1,6 +1,5 @@
 // === KLUCZ API ===
-// UWAGA: Ten klucz powinien być bezpiecznie przechowywany po stronie backendu w aplikacji produkcyjnej.
-const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY'; // <-- tu wklej swój prawdziwy klucz
+const OPENAI_API_KEY = 'YOUR_OPENAI_API_KEY'; // ← tu wklej swój prawdziwy klucz
 
 // === Główna funkcja zapytań do OpenAI ===
 async function openAIRequest(prompt) {

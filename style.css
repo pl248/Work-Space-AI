@@ -1,4 +1,4 @@
-/* Reset i podstawy */
+/* Reset stylów i podstawowe ustawienia */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -9,40 +9,85 @@
 body {
   background: #f5f7fa;
   padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .container {
-  max-width: 800px;
+  max-width: 900px;
+  width: 100%;
   margin: 0 auto;
-  background: white;
+  background: #fff;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+header {
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 h1 {
+  font-size: 2.5rem;
   color: #2d3748;
-  text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+}
+
+.language-switcher {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.lang-btn {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #e2e8f0;
+  background-color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.lang-btn.active {
+  background-color: #4299e1;
+  color: white;
+  font-weight: 600;
 }
 
 /* Style dla kart narzędzi */
 .tool-card {
   background: white;
   border-radius: 8px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Inputy i przyciski */
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #2d3748;
+}
+
+.input-group {
+  margin-bottom: 1rem;
+}
+
 input, textarea, button {
   width: 100%;
-  padding: 0.75rem;
+  padding: 1rem;
   margin: 0.5rem 0;
   border: 1px solid #e2e8f0;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 1rem;
+}
+
+input:focus, textarea:focus, button:focus {
+  outline: none;
+  border-color: #3182ce;
 }
 
 button {
@@ -51,13 +96,27 @@ button {
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
+  border-radius: 8px;
 }
 
 button:hover {
   background: #3182ce;
 }
 
+button:active {
+  background: #2c5282;
+}
+
+textarea {
+  height: 150px;
+  resize: none;
+}
+
 /* Wyniki */
+.output-container {
+  margin-top: 1.5rem;
+}
+
 .output {
   background: #f8fafc;
   padding: 1rem;
@@ -65,4 +124,71 @@ button:hover {
   margin-top: 1rem;
   min-height: 100px;
   white-space: pre-wrap;
+  font-family: 'Courier New', monospace;
+  color: #4a5568;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.copy-btn, .export-btn {
+  padding: 0.8rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px;
+  background-color: #edf2f7;
+  border: 1px solid #e2e8f0;
+}
+
+.copy-btn:hover, .export-btn:hover {
+  background-color: #e2e8f0;
+}
+
+.copy-btn:active, .export-btn:active {
+  background-color: #d6d8e1;
+}
+
+/* Style dla responsywności */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .tool-card {
+    padding: 1.5rem;
+  }
+
+  input, textarea, button {
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  button {
+    padding: 1rem;
+  }
+}
+
+/* Animacje */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.container {
+  animation: fadeIn 1s ease-in-out;
+}
+
+.tool-card {
+  animation: fadeIn 1.5s ease-in-out;
 }
