@@ -4,8 +4,214 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WorkSpaceAI - AI-Powered Content Generator</title>
-  <link rel="stylesheet" href="style.css">
-  <meta name="description" content="Generate product descriptions, ebooks, and sales offers with AI">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --secondary: #3f37c9;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #4cc9f0;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f5f7fa;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e1e5eb;
+    }
+    
+    h1 {
+      color: var(--primary);
+      font-size: 2.5rem;
+    }
+    
+    .language-switcher {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .lang-btn {
+      padding: 5px 15px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      background: #e1e5eb;
+      transition: all 0.3s;
+    }
+    
+    .lang-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+    
+    .tab-button {
+      padding: 10px 20px;
+      background: #e1e5eb;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .tab-button:hover {
+      background: #d1d7e0;
+    }
+    
+    .tab-button.active {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .tool-card {
+      background: white;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+      display: none;
+    }
+    
+    .tool-card.active {
+      display: block;
+    }
+    
+    .tool-card h2 {
+      margin-bottom: 20px;
+      color: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .input-group {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    
+    input, textarea {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    button {
+      padding: 12px 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    
+    button:hover {
+      background: var(--secondary);
+    }
+    
+    .output-container {
+      margin-top: 20px;
+      position: relative;
+    }
+    
+    .output {
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 20px;
+      min-height: 100px;
+      white-space: pre-wrap;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .copy-btn {
+      background: #6c757d;
+    }
+    
+    .export-btn {
+      background: var(--success);
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 1px solid #e1e5eb;
+      color: #6c757d;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      margin: 20px 0;
+    }
+    
+    .loading-spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid var(--primary);
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .input-group {
+        flex-direction: column;
+      }
+      
+      .tabs {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -18,22 +224,50 @@
     </header>
 
     <div class="tabs">
-      <button class="tab-button" data-tab="offer">Sales Offer</button>
+      <button class="tab-button active" data-tab="offer">Sales Offer</button>
+      <button class="tab-button" data-tab="shop-offer">Shop Offer</button>
       <button class="tab-button" data-tab="description">Product Description</button>
       <button class="tab-button" data-tab="ebook">E-book</button>
     </div>
 
     <main>
       <!-- Generator ofert sprzedażowych -->
-      <section id="offer" class="tool-card">
+      <section id="offer" class="tool-card active">
         <h2>💼 Sales Offer Generator</h2>
         <div class="input-group">
-          <input type="text" id="offer-link" placeholder="Enter product name or link">
-          <button id="generate-offer-btn">Generate Offer</button>
+          <input type="text" id="offer-name" placeholder="Enter product name">
+          <textarea id="offer-features" placeholder="Enter product features (comma separated)"></textarea>
+        </div>
+        <button id="generate-offer-btn">Generate Offer</button>
+        <div class="loading" id="offer-loading">
+          <div class="loading-spinner"></div>
+          <p>Generating offer...</p>
         </div>
         <div class="output-container">
           <div id="offer-output" class="output"></div>
-          <button class="copy-btn">Copy</button>
+          <div class="action-buttons">
+            <button class="copy-btn" data-target="offer-output">Copy</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Nowa funkcja: Generator ofert sklepowych -->
+      <section id="shop-offer" class="tool-card">
+        <h2>🛍️ Shop Offer Generator</h2>
+        <div class="input-group">
+          <input type="text" id="shop-link" placeholder="Paste product link (e.g. Amazon, AliExpress)">
+        </div>
+        <button id="generate-shop-offer-btn">Generate Shop Offer</button>
+        <div class="loading" id="shop-offer-loading">
+          <div class="loading-spinner"></div>
+          <p>Analyzing product and generating offer...</p>
+        </div>
+        <div class="output-container">
+          <div id="shop-offer-output" class="output"></div>
+          <div class="action-buttons">
+            <button class="copy-btn" data-target="shop-offer-output">Copy</button>
+            <button class="export-btn" data-target="shop-offer-output">Export as PDF</button>
+          </div>
         </div>
       </section>
 
@@ -41,12 +275,20 @@
       <section id="description" class="tool-card">
         <h2>📝 Product Description Generator</h2>
         <div class="input-group">
-          <input type="text" id="product-link" placeholder="Paste product link (e.g. AliExpress)">
-          <button id="generate-desc-btn">Generate Description</button>
+          <input type="text" id="product-name" placeholder="Enter product name">
+          <input type="text" id="product-category" placeholder="Enter product category">
+          <textarea id="product-keywords" placeholder="Enter keywords (comma separated)"></textarea>
+        </div>
+        <button id="generate-desc-btn">Generate Description</button>
+        <div class="loading" id="desc-loading">
+          <div class="loading-spinner"></div>
+          <p>Generating description...</p>
         </div>
         <div class="output-container">
           <div id="desc-output" class="output"></div>
-          <button class="copy-btn">Copy</button>
+          <div class="action-buttons">
+            <button class="copy-btn" data-target="desc-output">Copy</button>
+          </div>
         </div>
       </section>
 
@@ -54,14 +296,19 @@
       <section id="ebook" class="tool-card">
         <h2>📚 E-book Generator</h2>
         <div class="input-group">
-          <textarea id="ebook-topic" placeholder="Enter topic or keywords"></textarea>
-          <button id="generate-ebook-btn">Generate E-book</button>
+          <input type="text" id="ebook-topic" placeholder="Enter ebook topic">
+          <textarea id="ebook-chapters" placeholder="Enter chapters (comma separated)"></textarea>
+        </div>
+        <button id="generate-ebook-btn">Generate E-book</button>
+        <div class="loading" id="ebook-loading">
+          <div class="loading-spinner"></div>
+          <p>Generating e-book content...</p>
         </div>
         <div class="output-container">
           <div id="ebook-output" class="output"></div>
           <div class="action-buttons">
-            <button class="copy-btn">Copy</button>
-            <button class="export-btn">Export PDF</button>
+            <button class="copy-btn" data-target="ebook-output">Copy</button>
+            <button class="export-btn" data-target="ebook-output">Export as PDF</button>
           </div>
         </div>
       </section>
@@ -72,6 +319,211 @@
     </footer>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    // Tab switching
+    document.querySelectorAll('.tab-button').forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all tabs and buttons
+        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tool-card').forEach(card => card.classList.remove('active'));
+        
+        // Add active class to clicked button and corresponding tab
+        button.classList.add('active');
+        const tabId = button.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+
+    // Language switching
+    document.querySelectorAll('.lang-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        // Here you would add language switching logic
+      });
+    });
+
+    // Copy buttons
+    document.querySelectorAll('.copy-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const targetId = button.getAttribute('data-target');
+        const text = document.getElementById(targetId).innerText;
+        navigator.clipboard.writeText(text).then(() => {
+          button.textContent = 'Copied!';
+          setTimeout(() => {
+            button.textContent = 'Copy';
+          }, 2000);
+        });
+      });
+    });
+
+    // Export buttons (simplified - would need a proper PDF library)
+    document.querySelectorAll('.export-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const targetId = button.getAttribute('data-target');
+        const text = document.getElementById(targetId).innerText;
+        alert('PDF export would be implemented here for:\n\n' + text);
+      });
+    });
+
+    // API Integration - Mock functions (replace with actual API calls)
+    async function callAI(prompt) {
+      // In a real implementation, this would call your Vercel API endpoint
+      return new Promise(resolve => {
+        setTimeout(() => {
+          // Mock responses based on prompt
+          if (prompt.includes('sales offer')) {
+            resolve(`🌟 **Special Offer: ${prompt.split('for')[1] || 'Your Product'}** 🌟
+
+✅ Key Features:
+- High-quality materials
+- 2-year warranty
+- Free shipping
+
+💡 Why choose us?
+1. Best price guarantee
+2. 30-day return policy
+3. 24/7 customer support
+
+🛒 Order now and get 15% OFF with code: WORKSPACE15`);
+          } else if (prompt.includes('shop offer')) {
+            resolve(`🛍️ **Complete Shop Offer for ${prompt.split('for')[1] || 'Linked Product'}**
+
+📌 Product Highlights:
+- Premium quality
+- Competitive pricing
+- Fast delivery options
+
+📦 Package Includes:
+1. Main product
+2. Accessories
+3. User manual
+
+💰 Pricing Strategy:
+- MSRP: $99.99
+- Your price: $79.99 (20% margin)
+- Suggested promotion: "Buy 2, Get 10% Off"
+
+📢 Marketing Copy:
+"Upgrade your experience with our top-rated product! Limited stock available at this exclusive price."`);
+          } else if (prompt.includes('description')) {
+            resolve(`📝 **Professional Product Description**
+
+${prompt.split('description for')[1] || 'This product'} is designed to meet all your needs with exceptional quality and performance. 
+
+🔹 Features:
+- Durable construction
+- User-friendly design
+- Multi-functional use
+
+💎 Benefits:
+- Saves time and effort
+- Enhances productivity
+- Cost-effective solution
+
+Perfect for both professionals and home users looking for reliable performance. Order yours today!`);
+          } else if (prompt.includes('e-book')) {
+            resolve(`📚 **E-book Outline: ${prompt.split('Outline:')[1] || 'Your Topic'}**
+
+📖 Introduction:
+Overview of the topic and why it matters.
+
+📌 Chapter 1: ${prompt.split('chapters:')[1]?.split(',')[0] || 'Fundamentals'}
+- Key concepts
+- Examples
+- Case studies
+
+📌 Chapter 2: ${prompt.split('chapters:')[1]?.split(',')[1] || 'Advanced Techniques'}
+- Step-by-step guides
+- Pro tips
+- Common mistakes to avoid
+
+🎯 Conclusion:
+Summary and next steps for the reader.`);
+          } else {
+            resolve("AI-generated content based on your request.");
+          }
+        }, 1500); // Simulate API delay
+      });
+    }
+
+    // Event listeners for generate buttons
+    document.getElementById('generate-offer-btn').addEventListener('click', async () => {
+      const name = document.getElementById('offer-name').value;
+      const features = document.getElementById('offer-features').value;
+      
+      if (!name) {
+        alert('Please enter a product name');
+        return;
+      }
+      
+      document.getElementById('offer-loading').style.display = 'block';
+      document.getElementById('offer-output').textContent = '';
+      
+      const prompt = `Generate a professional sales offer for ${name}. Features: ${features || 'not specified'}. Include title, 3 key benefits, and a call to action.`;
+      const result = await callAI(prompt);
+      
+      document.getElementById('offer-output').textContent = result;
+      document.getElementById('offer-loading').style.display = 'none';
+    });
+
+    // New shop offer generator
+    document.getElementById('generate-shop-offer-btn').addEventListener('click', async () => {
+      const link = document.getElementById('shop-link').value;
+      
+      if (!link) {
+        alert('Please paste a product link');
+        return;
+      }
+      
+      document.getElementById('shop-offer-loading').style.display = 'block';
+      document.getElementById('shop-offer-output').textContent = '';
+      
+      const prompt = `Generate a complete shop offer for product at ${link}. Include: product highlights, pricing strategy, marketing copy, and SEO keywords.`;
+      const result = await callAI(prompt);
+      
+      document.getElementById('shop-offer-output').textContent = result;
+      document.getElementById('shop-offer-loading').style.display = 'none';
+    });
+
+    document.getElementById('generate-desc-btn').addEventListener('click', async () => {
+      const name = document.getElementById('product-name').value;
+      const category = document.getElementById('product-category').value;
+      const keywords = document.getElementById('product-keywords').value;
+      
+      if (!name) {
+        alert('Please enter a product name');
+        return;
+      }
+      
+      document.getElementById('desc-loading').style.display = 'block';
+      document.getElementById('desc-output').textContent = '';
+      
+      const prompt = `Generate a detailed product description for ${name} (category: ${category || 'general'}). Keywords: ${keywords || 'none'}. Include features and benefits.`;
+      const result = await callAI(prompt);
+      
+      document.getElementById('desc-output').textContent = result;
+      document.getElementById('desc-loading').style.display = 'none';
+    });
+
+    document.getElementById('generate-ebook-btn').addEventListener('click', async () => {
+      const topic = document.getElementById('ebook-topic').value;
+      const chapters = document.getElementById('ebook-chapters').value;
+      
+      if (!topic) {
+        alert('Please enter an ebook topic');
+        return;
+      }
+      
+      document.getElementById('ebook-loading').style.display = 'block';
+      document.getElementById('ebook-output').textContent = '';
+      
+      const prompt = `Generate an e-book outline about ${topic}. Chapters: ${chapters || 'Introduction, Main Content, Conclusion'}. Include key points for each section.`;
+      const result = await callAI(prompt);
+      
+      document.getElementById('ebook-output').textContent = result;
+      document.getElementById('ebook-loading').style.display = 'none';
+    });
+  </script>
 </body>
 </html>
