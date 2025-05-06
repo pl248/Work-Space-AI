@@ -1,48 +1,242 @@
-body {
-  font-family: 'Arial', sans-serif;
-  line-height: 1.6;
+:root {
+  --primary: #4361ee;
+  --secondary: #3f37c9;
+  --light: #f8f9fa;
+  --dark: #212529;
+  --success: #4cc9f0;
+  --gray: #6c757d;
+}
+
+* {
+  box-sizing: border-box;
   margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f5f7fa;
+  color: var(--dark);
+  line-height: 1.6;
   padding: 20px;
-  background: #f7f9fc;
-  color: #333;
 }
 
 .container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e1e5eb;
+}
+
+h1 {
+  color: var(--primary);
+  font-size: 2.5rem;
+}
+
+.language-switcher {
+  display: flex;
+  gap: 10px;
+}
+
+.lang-btn {
+  padding: 5px 15px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background: #e1e5eb;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.lang-btn.active {
+  background: var(--primary);
+  color: white;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  background: #e1e5eb;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.tab-button:hover {
+  background: #d1d7e0;
+}
+
+.tab-button.active {
+  background: var(--primary);
+  color: white;
 }
 
 .tool-card {
   background: white;
   border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  padding: 25px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+  display: none;
+  border: 1px solid #e1e5eb;
 }
 
-input, textarea, button {
-  width: 100%;
+.tool-card.active {
+  display: block;
+}
+
+.tool-card h2 {
+  margin-bottom: 20px;
+  color: var(--secondary);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon {
+  font-size: 1.5rem;
+}
+
+.input-group {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+input, textarea {
   padding: 12px;
-  margin: 10px 0;
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 16px;
+  width: 100%;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
 }
 
 button {
-  background: #4CAF50;
+  padding: 12px 20px;
+  background: var(--primary);
   color: white;
-  font-weight: bold;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background 0.3s;
+  font-size: 16px;
+  transition: all 0.3s;
+  font-weight: 500;
 }
 
 button:hover {
-  background: #45a049;
+  background: var(--secondary);
+  transform: translateY(-2px);
+}
+
+.output-container {
+  margin-top: 20px;
+  position: relative;
 }
 
 .output {
-  margin-top: 20px;
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  min-height: 100px;
+  white-space: pre-wrap;
+  line-height: 1.8;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.copy-btn {
+  background: var(--gray);
+}
+
+.export-btn {
+  background: var(--success);
+}
+
+footer {
+  text-align: center;
+  margin-top: 50px;
+  padding-top: 20px;
+  border-top: 1px solid #e1e5eb;
+  color: var(--gray);
+}
+
+.loading {
+  display: none;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.loading-spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 4px solid var(--primary);
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .input-group {
+    flex-direction: row;
+  }
+  
+  .input-group input,
+  .input-group textarea {
+    width: auto;
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 15px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  .tool-card {
+    padding: 15px;
+  }
+}-top: 20px;
   padding: 15px;
   background: #f0f0f0;
   border-radius: 5px;
