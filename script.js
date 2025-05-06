@@ -26,3 +26,16 @@ document.getElementById("generate-ebook-btn").addEventListener("click", () => {
   if (!topic) return alert("Please enter ebook topic!");
   document.getElementById("ebook-output").textContent = mockAI.generateEbook(topic);
 });
+/* Dodaj to na końcu pliku */
+.tool-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
