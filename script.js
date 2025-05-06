@@ -26,16 +26,33 @@ document.getElementById("generate-ebook-btn").addEventListener("click", () => {
   if (!topic) return alert("Please enter ebook topic!");
   document.getElementById("ebook-output").textContent = mockAI.generateEbook(topic);
 });
-/* Dodaj to na końcu pliku */
-.tool-card {
-  background: white;
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+// Wspólna funkcja dla obu generatorów
+async function generateContent(type, input, outputId) {
+  const outputElement = document.getElementById(outputId);
+  outputElement.textContent = "Generuję...";
+
+  try {
+    const response = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type, data: input })
+    });
+    const result = await response.json();
+    outputElement.textContent = result.result || result.error;
+  } catch (error) {
+    outputElement.textContent = "Błąd: " + error.message;
+  }
 }
 
-textarea {
-  min-height: 100px;
-  resize: vertical;
-}
+// Podpięcie przycisków
+document.getElementById("generate-desc-btn").addEventListener("click", () => {
+  const link = document.getElementById("product-link").value;
+  if (!link) return alert("Wpisz link produktu!");
+  generateContent("description", link, "desc-output");
+});
+
+document.getElementById("generate-ebook-btn").addEventListener("click", () => {
+  const topic = document.getElementById("ebook-topic").value;
+  if (!topic) return alert("Wpisz temat e-booka!");
+  generateContent("ebook", topic, "ebook-output");
+});
