@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WorkSpaceAI - AI-Powered Content Generator</title>
   <link rel="stylesheet" href="style.css">
-  <meta name="description" content="Generate product descriptions and ebooks with AI">
+  <meta name="description" content="Generate product descriptions, ebooks, and sales offers with AI">
 </head>
 <body>
   <div class="container">
@@ -22,9 +22,7 @@
       <section class="tool-card">
         <h2 data-i18n="desc_title">📝 Product Description Generator</h2>
         <div class="input-group">
-          <input type="text" id="product-link" 
-                 data-i18n-placeholder="desc_placeholder" 
-                 placeholder="Paste product link (e.g. AliExpress)">
+          <input type="text" id="product-link" data-i18n-placeholder="desc_placeholder" placeholder="Paste product link (e.g. AliExpress)">
           <button id="generate-desc-btn" data-i18n="desc_button">Generate Description</button>
         </div>
         <div class="output-container">
@@ -37,9 +35,7 @@
       <section class="tool-card">
         <h2 data-i18n="ebook_title">📚 E-book Generator</h2>
         <div class="input-group">
-          <textarea id="ebook-topic" 
-                    data-i18n-placeholder="ebook_placeholder" 
-                    placeholder="Enter topic or keywords"></textarea>
+          <textarea id="ebook-topic" data-i18n-placeholder="ebook_placeholder" placeholder="Enter topic or keywords"></textarea>
           <button id="generate-ebook-btn" data-i18n="ebook_button">Generate E-book</button>
         </div>
         <div class="output-container">
@@ -50,20 +46,21 @@
           </div>
         </div>
       </section>
+
+      <!-- Generator ofert sprzedażowych -->
+      <section class="tool-card">
+        <h2 data-i18n="offer_title">💼 Sales Offer Generator</h2>
+        <div class="input-group">
+          <input type="text" id="offer-link" data-i18n-placeholder="offer_placeholder" placeholder="Enter product name or link">
+          <button id="generate-offer-btn" data-i18n="offer_button">Generate Offer</button>
+        </div>
+        <div class="output-container">
+          <div id="offer-output" class="output"></div>
+          <button class="copy-btn" data-i18n="copy">Copy</button>
+        </div>
+      </section>
     </main>
-<!-- Generator oferty sprzedażowej -->
-<section class="tool-card">
-  <h2 data-i18n="offer_title">💼 Sales Offer Generator</h2>
-  <div class="input-group">
-    <input type="text" id="offer-link" 
-           placeholder="Paste product link or name">
-    <button id="generate-offer-btn">Generate Offer</button>
-  </div>
-  <div class="output-container">
-    <div id="offer-output" class="output"></div>
-    <button class="copy-btn">Copy</button>
-  </div>
-</section>
+
     <footer>
       <p data-i18n="footer_text">© 2023 WorkSpaceAI | Powered by AI</p>
     </footer>
