@@ -3,58 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WorkSpaceAI</title>
+  <title>WorkSpaceAI - AI-Powered Content Generator</title>
   <link rel="stylesheet" href="style.css">
+  <meta name="description" content="Generate product descriptions and ebooks with AI">
 </head>
 <body>
   <div class="container">
-    <h1>WorkSpaceAI</h1>
+    <header>
+      <h1>WorkSpaceAI</h1>
+      <div class="language-switcher">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="pl">PL</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- Generator opisów produktów -->
+      <section class="tool-card">
+        <h2 data-i18n="desc_title">📝 Product Description Generator</h2>
+        <div class="input-group">
+          <input type="text" id="product-link" 
+                 data-i18n-placeholder="desc_placeholder" 
+                 placeholder="Paste product link (e.g. AliExpress)">
+          <button id="generate-desc-btn" data-i18n="desc_button">Generate Description</button>
+        </div>
+        <div class="output-container">
+          <div id="desc-output" class="output"></div>
+          <button class="copy-btn" data-i18n="copy">Copy</button>
+        </div>
+      </section>
+
+      <!-- Generator e-booków -->
+      <section class="tool-card">
+        <h2 data-i18n="ebook_title">📚 E-book Generator</h2>
+        <div class="input-group">
+          <textarea id="ebook-topic" 
+                    data-i18n-placeholder="ebook_placeholder" 
+                    placeholder="Enter topic or keywords"></textarea>
+          <button id="generate-ebook-btn" data-i18n="ebook_button">Generate E-book</button>
+        </div>
+        <div class="output-container">
+          <div id="ebook-output" class="output"></div>
+          <div class="action-buttons">
+            <button class="copy-btn" data-i18n="copy">Copy</button>
+            <button class="export-btn" data-i18n="export_pdf">Export PDF</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p data-i18n="footer_text">© 2023 WorkSpaceAI | Powered by AI</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
     
-    <!-- Generator opisów produktów -->
-    <div class="tool-card">
-      <h2>📝 Product Description Generator</h2>
-      <input type="text" id="product-link" placeholder="Paste product link (e.g. AliExpress)">
-      <button id="generate-desc-btn">Generate Description</button>
-      <div id="desc-output" class="output"></div>
-    </div>
-
-    <!-- Generator e-booków -->
-    <div class="tool-card">
-      <h2>📚 E-book Generator</h2>
-      <textarea id="ebook-topic" placeholder="Enter topic"></textarea>
-      <button id="generate-ebook-btn">Generate E-book</button>
-      <div id="ebook-output" class="output"></div>
-    </div>
-  </div>
-  <script src="script.js"></script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WorkSpaceAI</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="container">
-    <!-- Sekcja generatora opisów (istniejąca) -->
-    <div class="tool-card">
-      <h2>📝 Generator opisów produktów</h2>
-      <input type="text" id="product-link" placeholder="Wklej link produktu (np. z AliExpress)">
-      <button id="generate-desc-btn">Generuj opis</button>
-      <div id="desc-output" class="output"></div>
-    </div>
-
-    <!-- Sekcja generatora e-booków (nowa) -->
-    <div class="tool-card">
-      <h2>📚 Generator e-booków</h2>
-      <textarea id="ebook-topic" placeholder="Wpisz temat e-booka"></textarea>
-      <button id="generate-ebook-btn">Generuj e-book</button>
-      <div id="ebook-output" class="output"></div>
-    </div>
-  </div>
-  <script src="script.js"></script>
-</body>
-</html>
+    
