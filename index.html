@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Ad & Sales Generator</title>
-  <meta name="description" content="Generate AI-powered ads and sales offers">
   <style>
     :root {
       --primary: #4361ee;
       --secondary: #3f37c9;
       --light: #f8f9fa;
       --dark: #212529;
+      --success: #4cc9f0;
     }
     
     * {
@@ -27,13 +27,15 @@
     }
     
     .container {
-      max-width: 800px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
     }
     
     header {
-      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 30px;
       padding-bottom: 20px;
       border-bottom: 1px solid #e1e5eb;
@@ -44,11 +46,29 @@
       font-size: 2.5rem;
     }
     
+    .language-switcher {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .lang-btn {
+      padding: 5px 15px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      background: #e1e5eb;
+      transition: all 0.3s;
+    }
+    
+    .lang-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+    
     .tabs {
       display: flex;
       gap: 10px;
       margin-bottom: 30px;
-      justify-content: center;
     }
     
     .tab-button {
@@ -85,19 +105,23 @@
     .tool-card h2 {
       margin-bottom: 20px;
       color: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     
     .input-group {
       margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
     }
     
     input, textarea, select {
-      width: 100%;
+      flex: 1;
       padding: 12px;
       border: 1px solid #ddd;
       border-radius: 5px;
       font-size: 16px;
-      margin-bottom: 10px;
     }
     
     textarea {
@@ -114,7 +138,6 @@
       cursor: pointer;
       font-size: 16px;
       transition: all 0.3s;
-      width: 100%;
     }
     
     button:hover {
@@ -123,6 +146,7 @@
     
     .output-container {
       margin-top: 20px;
+      position: relative;
     }
     
     .output {
@@ -142,7 +166,18 @@
     
     .copy-btn {
       background: #6c757d;
-      width: auto;
+    }
+    
+    .export-btn {
+      background: var(--success);
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 1px solid #e1e5eb;
+      color: #6c757d;
     }
     
     .loading {
@@ -166,13 +201,13 @@
       100% { transform: rotate(360deg); }
     }
     
-    @media (max-width: 600px) {
-      .tabs {
+    @media (max-width: 768px) {
+      .input-group {
         flex-direction: column;
       }
       
-      .tab-button {
-        width: 100%;
+      .tabs {
+        flex-wrap: wrap;
       }
     }
   </style>
@@ -181,6 +216,10 @@
   <div class="container">
     <header>
       <h1>AI Ad & Sales Generator</h1>
+      <div class="language-switcher">
+        <button class="lang-btn active">EN</button>
+        <button class="lang-btn">PL</button>
+      </div>
     </header>
 
     <div class="tabs">
@@ -194,13 +233,6 @@
         <h2>🚀 AI Ad Maker</h2>
         <div class="input-group">
           <input type="text" id="ad-product" placeholder="Product/Service Name" required>
-          <textarea id="ad-details" placeholder="Key features/benefits (comma separated)"></textarea>
-          <select id="ad-style">
-            <option value="professional">Professional</option>
-            <option value="casual">Casual</option>
-            <option value="funny">Funny</option>
-            <option value="persuasive">Persuasive</option>
-          </select>
           <select id="ad-platform">
             <option value="facebook">Facebook</option>
             <option value="instagram">Instagram</option>
@@ -208,7 +240,18 @@
             <option value="linkedin">LinkedIn</option>
           </select>
         </div>
-        <button id="generate-ad-btn">Generate Ad</button>
+        <div class="input-group">
+          <textarea id="ad-details" placeholder="Key features/benefits (comma separated)"></textarea>
+        </div>
+        <div class="input-group">
+          <select id="ad-style">
+            <option value="professional">Professional</option>
+            <option value="casual">Casual</option>
+            <option value="funny">Funny</option>
+            <option value="persuasive">Persuasive</option>
+          </select>
+          <button id="generate-ad-btn">Generate Ad</button>
+        </div>
         <div class="loading" id="ad-loading">
           <div class="loading-spinner"></div>
           <p>Generating your ad...</p>
@@ -217,6 +260,7 @@
           <div id="ad-output" class="output"></div>
           <div class="action-buttons">
             <button class="copy-btn" data-target="ad-output">Copy</button>
+            <button class="export-btn" data-target="ad-output">Export as TXT</button>
           </div>
         </div>
       </section>
@@ -226,16 +270,20 @@
         <h2>💼 AI Sales Offer</h2>
         <div class="input-group">
           <input type="text" id="offer-product" placeholder="Product/Service Name" required>
-          <textarea id="offer-features" placeholder="Key features/benefits (comma separated)"></textarea>
           <select id="offer-tone">
             <option value="formal">Formal</option>
             <option value="friendly">Friendly</option>
             <option value="urgent">Urgent</option>
             <option value="exclusive">Exclusive</option>
           </select>
-          <input type="text" id="offer-discount" placeholder="Discount/special offer (optional)">
         </div>
-        <button id="generate-offer-btn">Generate Offer</button>
+        <div class="input-group">
+          <textarea id="offer-features" placeholder="Key features/benefits (comma separated)"></textarea>
+        </div>
+        <div class="input-group">
+          <input type="text" id="offer-discount" placeholder="Discount/special offer (optional)">
+          <button id="generate-offer-btn">Generate Offer</button>
+        </div>
         <div class="loading" id="offer-loading">
           <div class="loading-spinner"></div>
           <p>Generating your offer...</p>
@@ -244,6 +292,7 @@
           <div id="offer-output" class="output"></div>
           <div class="action-buttons">
             <button class="copy-btn" data-target="offer-output">Copy</button>
+            <button class="export-btn" data-target="offer-output">Export as TXT</button>
           </div>
         </div>
       </section>
@@ -267,6 +316,14 @@
       });
     });
 
+    // Language switching (placeholder)
+    document.querySelectorAll('.lang-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+      });
+    });
+
     // Copy buttons
     document.querySelectorAll('.copy-btn').forEach(button => {
       button.addEventListener('click', () => {
@@ -278,6 +335,21 @@
             button.textContent = 'Copy';
           }, 2000);
         });
+      });
+    });
+
+    // Export buttons
+    document.querySelectorAll('.export-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const targetId = button.getAttribute('data-target');
+        const text = document.getElementById(targetId).innerText;
+        const blob = new Blob([text], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'ai-content.txt';
+        a.click();
+        URL.revokeObjectURL(url);
       });
     });
 
@@ -294,23 +366,23 @@
         });
         
         if (!response.ok) {
-          throw new Error('API request failed');
+          throw new Error(`API error: ${response.status}`);
         }
         
         const data = await response.json();
         return data.result || "No response from AI";
       } catch (error) {
         console.error('API Error:', error);
-        return "Error generating content. Please try again.";
+        return `Error: ${error.message}`;
       }
     }
 
     // Generate Ad
     document.getElementById('generate-ad-btn').addEventListener('click', async () => {
       const product = document.getElementById('ad-product').value;
+      const platform = document.getElementById('ad-platform').value;
       const details = document.getElementById('ad-details').value;
       const style = document.getElementById('ad-style').value;
-      const platform = document.getElementById('ad-platform').value;
       
       if (!product) {
         alert('Please enter a product/service name');
@@ -323,18 +395,27 @@
       loading.style.display = 'block';
       output.textContent = '';
       
-      const prompt = `Generate a ${style} advertising copy for ${product} targeting ${platform}. Key features: ${details || 'not specified'}. Include a catchy headline, 2-3 key benefits, and a strong call to action.`;
+      const prompt = `Generate a ${style} advertising copy for ${product} targeting ${platform}. Key features: ${details || 'not specified'}. Include:
+      - A catchy headline (max 60 characters)
+      - 3 key benefits as bullet points
+      - Strong call-to-action
+      - Hashtags if appropriate for the platform`;
       
-      const result = await callOpenAI(prompt);
-      output.textContent = result;
-      loading.style.display = 'none';
+      try {
+        const result = await callOpenAI(prompt);
+        output.textContent = result;
+      } catch (error) {
+        output.textContent = `Error: ${error.message}`;
+      } finally {
+        loading.style.display = 'none';
+      }
     });
 
     // Generate Sales Offer
     document.getElementById('generate-offer-btn').addEventListener('click', async () => {
       const product = document.getElementById('offer-product').value;
-      const features = document.getElementById('offer-features').value;
       const tone = document.getElementById('offer-tone').value;
+      const features = document.getElementById('offer-features').value;
       const discount = document.getElementById('offer-discount').value;
       
       if (!product) {
@@ -348,14 +429,24 @@
       loading.style.display = 'block';
       output.textContent = '';
       
-      let prompt = `Generate a ${tone} sales offer for ${product}.`;
-      if (features) prompt += ` Key features: ${features}.`;
-      if (discount) prompt += ` Special offer: ${discount}.`;
-      prompt += ` Include: compelling introduction, 3 main benefits, pricing details (if applicable), and strong closing call to action.`;
+      let prompt = `Generate a ${tone} sales offer for ${product}.\n`;
+      if (features) prompt += `Key features: ${features}\n`;
+      if (discount) prompt += `Special offer: ${discount}\n`;
+      prompt += `Include:
+      - Compelling introduction
+      - 3 main benefits
+      - Pricing details (if applicable)
+      - Strong closing call-to-action
+      - Limited-time offer language if appropriate`;
       
-      const result = await callOpenAI(prompt);
-      output.textContent = result;
-      loading.style.display = 'none';
+      try {
+        const result = await callOpenAI(prompt);
+        output.textContent = result;
+      } catch (error) {
+        output.textContent = `Error: ${error.message}`;
+      } finally {
+        loading.style.display = 'none';
+      }
     });
   </script>
 </body>
